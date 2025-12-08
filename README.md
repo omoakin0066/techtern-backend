@@ -110,9 +110,30 @@ For testing purposes, you can create accounts with these roles:
 - **Employer**: Set `role: "employer"` during signup
 - **Admin**: Must be set directly in database
 
-## Tutor Access
+## Tutor Access & Live Deployment
 
-MongoDB Atlas Connection String and JWT Secret are provided in the `.env` file.
+### Live URLs
+- **Frontend (Vercel):** https://techtern-frontend.vercel.app
+- **Backend API (Render):** https://techtern-backend.onrender.com
+- **Frontend Code:** https://github.com/omoakin0066/techtern-frontend
+- **Backend Code:** https://github.com/omoakin0066/techtern-backend
+
+### MongoDB Atlas Database Access
+The tutor has been invited to the MongoDB Atlas project with read-only access.
+- **Cluster:** cluster0.li6fihr.mongodb.net
+- **Database User:** dxu6_db_user
+- **Role:** Read Only
+
+### Environment Variables (for local development)
+```
+MONGO_URI=mongodb+srv://akintolaphii_db_user:<password>@cluster0.li6fihr.mongodb.net/test
+JWT_SECRET=techternsecret123
+PORT=5000
+```
+
+### Test Account (Live Site)
+- **Email:** testlive@example.com
+- **Password:** TestLive123!
 
 ## Project Structure
 
