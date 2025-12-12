@@ -262,12 +262,12 @@ const updatePassword = async (req, res) => {
 
 const getAllUsers = async (req, res) => {
   try {
-    const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 10;
+    const page = Math.max(1, parseInt(req.query.page) || 1);
+    const limit = Math.min(100, Math.max(1, parseInt(req.query.limit) || 10));
     const skip = (page - 1) * limit;
 
     const totalUsers = await User.countDocuments();
-    const users = await User.find({}).skip(skip).limit(limit);
+    const users = await User.find({}).select('-password').skip(skip).limit(limit);
 
     res.status(200).json({
       success: true,
