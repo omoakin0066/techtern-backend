@@ -262,11 +262,19 @@ const updatePassword = async (req, res) => {
 
 const getAllUsers = async (req, res) => {
   try {
-    const users = await User.find({});
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
+
+    const totalUsers = await User.countDocuments();
+    const users = await User.find({}).skip(skip).limit(limit);
 
     res.status(200).json({
       success: true,
       count: users.length,
+      total: totalUsers,
+      page,
+      totalPages: Math.ceil(totalUsers / limit),
       users: users.map((user) => ({
         id: user._id,
         name: user.name,
@@ -282,7 +290,6 @@ const getAllUsers = async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Server error fetching users",
-      error: error.message,
     });
   }
 };
