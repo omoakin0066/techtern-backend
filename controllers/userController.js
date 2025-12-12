@@ -266,8 +266,10 @@ const getAllUsers = async (req, res) => {
     const limit = Math.min(100, Math.max(1, parseInt(req.query.limit) || 10));
     const skip = (page - 1) * limit;
 
-    const totalUsers = await User.countDocuments();
-    const users = await User.find({}).select('-password').skip(skip).limit(limit);
+    const [totalUsers, users] = await Promise.all([
+      User.countDocuments(),
+      User.find({}).select('-password').skip(skip).limit(limit),
+    ]);
 
     res.status(200).json({
       success: true,
