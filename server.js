@@ -28,9 +28,11 @@ connectDB();
 // Routes
 const userRoutes = require("./routes/userRoutes");
 const internshipRoutes = require("./routes/internshipRoutes");
+const geocodeRoutes = require("./routes/geocodeRoutes");
 
 app.use("/api/users", userRoutes);
 app.use("/api/internships", internshipRoutes);
+app.use("/api/geocode", geocodeRoutes);
 
 // Test route
 app.get("/", (req, res) => {

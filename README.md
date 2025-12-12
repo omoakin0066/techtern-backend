@@ -81,6 +81,48 @@ The server will start on `http://localhost:5000`
 | GET | `/:id/applications` | View applications for internship | Owner/Admin |
 | PUT | `/:id/application-status` | Update application status | Owner/Admin |
 
+### Geocoding Routes (`/api/geocode`) - Third-Party API Integration
+
+**External Service:** OpenStreetMap Nominatim API (Free, Open-Access)
+
+| Method | Endpoint | Description | Access |
+|--------|----------|-------------|--------|
+| GET | `/` | Geocode location string to coordinates | Public |
+| GET | `/reverse` | Reverse geocode coordinates to location | Public |
+| GET | `/search` | Search for locations/places | Public |
+
+#### Example Usage:
+
+```bash
+# Geocode a location
+GET /api/geocode?location=London,UK
+
+# Reverse geocode coordinates
+GET /api/geocode/reverse?lat=51.5074&lon=-0.1278
+
+# Search for locations
+GET /api/geocode/search?q=Manchester&limit=5
+```
+
+#### Example Response:
+```json
+{
+  "success": true,
+  "message": "Location geocoded successfully",
+  "source": "OpenStreetMap Nominatim API",
+  "data": {
+    "latitude": 51.5073219,
+    "longitude": -0.1276474,
+    "displayName": "London, Greater London, England, United Kingdom",
+    "address": {
+      "city": "London",
+      "state": "England",
+      "country": "United Kingdom"
+    }
+  }
+}
+```
+
 ## Query Parameters for Internship Listing
 
 | Parameter | Description | Example |
