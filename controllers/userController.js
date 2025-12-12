@@ -260,6 +260,33 @@ const updatePassword = async (req, res) => {
   }
 };
 
+const getAllUsers = async (req, res) => {
+  try {
+    const users = await User.find({});
+
+    res.status(200).json({
+      success: true,
+      count: users.length,
+      users: users.map((user) => ({
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        phone: user.phone,
+        company: user.company,
+        location: user.location,
+        createdAt: user.createdAt,
+      })),
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Server error fetching users",
+      error: error.message,
+    });
+  }
+};
+
 module.exports = {
   signup,
   login,
@@ -267,4 +294,5 @@ module.exports = {
   getProfile,
   updateProfile,
   updatePassword,
+  getAllUsers,
 };
