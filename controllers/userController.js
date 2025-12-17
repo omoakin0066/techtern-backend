@@ -260,6 +260,42 @@ const updatePassword = async (req, res) => {
   }
 };
 
+const getAllUsers = async (req, res) => {
+  try {
+    const page = Math.max(1, parseInt(req.query.page) || 1);
+    const limit = Math.min(100, Math.max(1, parseInt(req.query.limit) || 10));
+    const skip = (page - 1) * limit;
+
+    const [totalUsers, users] = await Promise.all([
+      User.countDocuments(),
+      User.find({}).select('-password').skip(skip).limit(limit),
+    ]);
+
+    res.status(200).json({
+      success: true,
+      count: users.length,
+      total: totalUsers,
+      page,
+      totalPages: Math.ceil(totalUsers / limit),
+      users: users.map((user) => ({
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        phone: user.phone,
+        company: user.company,
+        location: user.location,
+        createdAt: user.createdAt,
+      })),
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Server error fetching users",
+    });
+  }
+};
+
 module.exports = {
   signup,
   login,
@@ -267,4 +303,5 @@ module.exports = {
   getProfile,
   updateProfile,
   updatePassword,
+  getAllUsers,
 };
